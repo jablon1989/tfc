@@ -76,13 +76,6 @@ resource "aws_security_group" "test-security-group" {
   }
 }
 
-data "aws_ami" "ubuntu" {
-  executable_users = ["self"]
-  most_recent = true
-  name_regex = "ami-067d1e60475437da2"
-  owners = ["self"]
-}
-
 resource "aws_eip" "test-eip" {
   instance = aws_instance.test-ec2.id
   vpc      = true
@@ -97,7 +90,7 @@ resource "aws_eip_association" "test-eip-association" {
 }
 
 resource "aws_instance" "test-ec2" {
-  ami                         = data.aws_ami.ubuntu.id
+  ami                         = "ami-067d1e60475437da2"
   instance_type               = var.instance_type
   associate_public_ip_address = true
   subnet_id                   = element(module.vpc.public_subnets, 0)
